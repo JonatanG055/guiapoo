@@ -1,0 +1,13 @@
+
+.temperatura {
+  font-size: 50px;
+}
+.fria {
+  color: blue;
+}
+.estable {
+  color: yellow;
+}
+.caliente {
+  color: red;
+}
