@@ -8,13 +8,79 @@
 </head>
 <body>
     <?php
-    class Arma {
-        public $tipo;
+    interface Arma {
+        public function recargar();
+        public function disparar();
+    }
+
+    class Pistola implements Arma {
         public $balas = 0;
 
-        public function __construct($tipo) {
-            $this->tipo = $tipo;
+        public function recargar() {
+            if ($this->balas == 0) {
+                $this->balas = 8;
+                return true;
+            } else {
+                return false;
+            }
         }
+
+        public function disparar() {
+            if ($this->balas > 0) {
+                $this->balas--;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    class Escopeta implements Arma {
+        public $balas = 0;
+
+        public function recargar() {
+            if ($this->balas == 0) {
+                $this->balas = 8;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function disparar() {
+            if ($this->balas > 0) {
+                $this->balas--;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    class Rifle implements Arma {
+        public $balas = 0;
+
+        public function recargar() {
+            if ($this->balas == 0) {
+                $this->balas = 8;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public function disparar() {
+            if ($this->balas > 0) {
+                $this->balas--;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    class Metralleta implements Arma {
+        public $balas = 0;
 
         public function recargar() {
             if ($this->balas == 0) {
@@ -36,60 +102,54 @@
     }
 
     // Instantiate objects of the Arma class
-    $arma1 = new Arma("Pistola");
-    $arma2 = new Arma("Escopeta");
-    $arma3 = new Arma("Rifle");
-    $arma4 = new Arma("Metralleta");
+    $arma1 = new Pistola();
+    $arma2 = new Escopeta();
+    $arma3 = new Rifle();
+    $arma4 = new Metralleta();
     ?>
 
     <div>
-        <label><?php echo $arma1->tipo ?>:</label>
+        <label><?php echo get_class($arma1) ?>:</label>
         <input type="number" id="arma1" value="0" min="0">
         <button onclick="recargar(1)">Recargar</button>
         <button onclick="disparar(1)">Disparar</button>
     </div>
     <div>
-        <label><?php echo $arma2->tipo ?>:</label>
+        <label><?php echo get_class($arma2) ?>:</label>
         <input type="number" id="arma2" value="0" min="0">
         <button onclick="recargar(2)">Recargar</button>
         <button onclick="disparar(2)">Disparar</button>
     </div>
     <div>
-        <label><?php echo $arma3->tipo ?>:</label>
+        <label><?php echo get_class($arma3) ?>:</label>
         <input type="number" id="arma3" value="0" min="0">
-        <button onclick="recargar(3)">Recargar</button>
-        <button onclick="disparar(3)">Disparar</button>
-    </div>
-    <div>
-        <label><?php echo $arma4->tipo ?>:</label>
-        <input type="number" id="arma4" value="0" min="0">
-        <button onclick="recargar(4)">Recargar</button>
-        <button onclick="disparar(4)">Disparar</button>
-    </div>
+    <button onclick="recargar(3)">Recargar</button>
+    <button onclick="disparar(3)">Disparar</button>
+</div>
+<div>
+    <label><?php echo get_class($arma4) ?>:</label>
+    <input type="number" id="arma4" value="0" min="0">
+    <button onclick="recargar(4)">Recargar</button>
+    <button onclick="disparar(4)">Disparar</button>
+</div>
 
-    <script>
-        function recargar(armaNum) {
-            var arma = "arma" + armaNum;
-            var inputArma = document.getElementById(arma);
-            var municion = inputArma.value;
-            var maxMunicion = <?php echo $arma5->maxMunicion ?>;
-            var recarga = maxMunicion - municion;
-            inputArma.value = maxMunicion;
-            alert("Recargaste " + recarga + " balas.");
-        }
+<script>
+    function recargar(arma) {
+        var input = document.getElementById('arma' + arma);
+        input.value = 10;
+    }
 
-        function disparar(armaNum) {
-            var arma = "arma" + armaNum;
-            var inputArma = document.getElementById(arma);
-            var municion = inputArma.value;
-            if (municion > 0) {
-                municion--;
-                inputArma.value = municion;
-                alert("Disparaste una bala. Te quedan " + municion + " balas.");
-            } else {
-                alert("No te quedan balas.");
-            }
+    function disparar(arma) {
+        var input = document.getElementById('arma' + arma);
+        var ammo = parseInt(input.value);
+        if (ammo > 0) {
+            ammo--;
+            input.value = ammo;
+            console.log('Disparando ' + get_class(arma));
+        } else {
+            console.log('No hay municiones para ' + get_class(arma));
         }
-    </script>
-    </body>
+    }
+</script>
+</body>
 </html>
