@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>Juego de Azar</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="estilos.css">
+    
+</head>
+<body>
+    <header>
+        <img src="img/azar.jpg" alt="Logo del Juego de Azar">
+      </header>
+    <h1>Juego de Azar</h1>
+    <form id="gameForm">
+        <label for="numberInput">Número:</label>
+        <input type="number" id="numberInput" min="0" max="100" required>
+        <label for="costInput">Costo ($1 - $10):</label>
+        <input type="number" id="costInput" min="1" max="10" required>
+        <button type="submit" id="playButton">Jugar</button>
+        
+
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Costo</th>
+                <th>Ganancias</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>$1</td>
+                <td>$70</td>
+            </tr>
+            <tr>
+                <td>$2</td>
+                <td>$140</td>
+            </tr>
+            <tr>
+                <td>$3</td>
+                <td>$210</td>
+            </tr>
+            <tr>
+                <td>$4</td>
+                <td>$280</td>
+            </tr>
+            <tr>
+                <td>$5</td>
+                <td>$350</td>
+            </tr>
+            <tr>
+                <td>$6</td>
+                <td>$420</td>
+            </tr>
+            <tr>
+                <td>$7</td>
+                <td>$490</td>
+            </tr>
+            <tr>
+                <td>$8</td>
+                <td>$560</td>
+            </tr>
+            <tr>
+                <td>$9</td>
+                <td>$630</td>
+            </tr>
+            <tr>
+                <td>$10</td>
+                <td>$700</td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="result"></div>
+    <button type="button" id="resetButton">Jugar de nuevo</button>
+
+    <script>
+const form = document.querySelector('#gameForm');
+const numberInput = document.querySelector('#numberInput');
+const costInput = document.querySelector('#costInput');
+const playButton = document.querySelector('#playButton');
+const resultDiv = document.querySelector('#result');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    // Desactivar campo de entrada del número y botón de jugar
+    numberInput.disabled = true;
+    playButton.disabled = true;
+
+    // Generar número ganador aleatorio entre 0 y 100
+    const winningNumber = Math.floor(Math.random() * 101);
+
+    // Obtener el costo ingresado por el usuario
+    const cost = costInput.value;
+
+    // Calcular ganancias basadas en la tabla de precios
+    let winnings = 0;
+    switch (cost) {
+        case '1':
+            winnings = 70;
+            break;
+        case '2':
+            winnings = 140;
+            break;
+        case '3':
+            winnings = 210;
+            break;
+        case '4':
+            winnings = 280;
+            break;
+        case '5':
+            winnings = 350;
+            break;
+        case '6':
+            winnings = 420;
+            break;
+        case '7':
+            winnings = 490;
+            break;
+        case '8':
+            winnings = 560;
+            break;
+        case '9':
+            winnings = 630;
+            break;
+        case '10':
+            winnings = 700;
+            break;
+        default:
+            winnings = 0;
+            break;
+    }
+
+    // Comparar el número ingresado por el usuario con el número ganador
+    const guess = parseInt(numberInput.value);
+    const difference = Math.abs(winningNumber - guess);
+
+    // Mostrar el resultado al usuario
+    let resultMessage = '';
+    if (difference === 0) {
+        winnings *= parseInt(cost);
+        resultMessage = `¡Felicitaciones! Ganaste $${winnings} al acertar el número ${winningNumber}.`;
+    } else if (difference <= 5) {
+        resultMessage = `Casi lo logras. Ganaste $${Math.floor(winnings / 2)} al estar a ${difference} del número ganador (${winningNumber}).`;
+    } else {
+        resultMessage = `Lo siento, no ganaste. El número ganador fue ${winningNumber}.`;
+    }
+    resultDiv.textContent = resultMessage;
+
+    // Reactivar campo de entrada del número y botón de jugar
+    numberInput.disabled = false;
+    playButton.disabled = false;
+    numberInput.value = '';
+});
+resetButton.addEventListener('click', () => {
+    resultDiv.textContent = '';
+    numberInput.disabled = false;
+    playButton.disabled = false;
+    numberInput.value = '';
+    costInput.value = '';
+});
+
+
+</script>
+</body>
+</html>
